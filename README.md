@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Agentic Healthcare Intelligence MVP
 
-## Getting Started
+Production-style hackathon MVP for India-focused healthcare discovery: ingesting messy facility reports, structuring capabilities, matching facilities to natural-language patient needs, and explaining recommendations.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js App Router (JavaScript)
+- Tailwind CSS
+- shadcn-style UI primitives (table-first)
+- NextAuth (credentials demo auth)
+- Rule-based agentic processing (free, no paid APIs)
+- Local India JSON data (30 facilities) with simulated 10,000-report indexing pattern
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick Start
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Create env file:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+3. Set `AUTH_SECRET` in `.env.local` (long random string).
+4. Run:
+   ```bash
+   npm run dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000)
+6. Login with:
+   - `admin@healthintel.io` / `demo1234`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Main User Flow
 
-## Learn More
+1. Login at `/login`.
+2. Open protected `/dashboard`.
+3. Search in `/search` (example: `Find nearest facility in rural Bihar for emergency appendectomy with part-time doctors`).
+4. Review ranked facilities in a professional table.
+5. Open `/facility/[id]` for details + explanation reasoning.
 
-To learn more about Next.js, take a look at the following resources:
+## API Routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `POST /api/process` -> structures messy report text into normalized capabilities.
+- `POST /api/search` -> performs intent detection + capability ranking.
+- `POST /api/explain` -> returns clear, decision-ready reasoning.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Architecture Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/agentic.js` encapsulates:
+  - report processing
+  - query interpretation
+  - scoring/ranking
+  - explanation generation
+- Search simulates scale by chunking indexed records and merging ranked results to represent 10k+ corpus behavior.
+- Includes trust scoring and contradiction flags aligned to the challenge Trust Scorer requirement.
