@@ -1,4 +1,4 @@
-import { runSearch } from "@/lib/agentic";
+import { runSearch, facilities } from "@/lib/agentic";
 
 export async function POST(request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request) {
       interpretedIntent: queryInfo,
       facilities: result,
       indexStats: {
-        simulatedCorpus: 10000,
+        simulatedCorpus: facilities.length,
         indexedRecords: result.length,
       },
     });

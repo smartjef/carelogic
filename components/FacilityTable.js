@@ -9,17 +9,37 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export default function FacilityTable({ facilities, query }) {
+export default function FacilityTable({ facilities, query, sortBy, sortDirection, onSort }) {
+  const renderSortIcon = (field) => {
+    if (sortBy !== field) return <span className="ml-1 opacity-20">↕</span>;
+    return sortDirection === "asc" ? <span className="ml-1">↑</span> : <span className="ml-1">↓</span>;
+  };
+
   return (
     <div className="border border-gray-200 bg-white">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Facility</TableHead>
+            <TableHead 
+              className="cursor-pointer hover:bg-gray-50 transition-colors"
+              onClick={() => onSort("name")}
+            >
+              Facility {renderSortIcon("name")}
+            </TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Capabilities</TableHead>
-            <TableHead className="w-24">Score</TableHead>
-            <TableHead className="w-24">Trust</TableHead>
+            <TableHead 
+              className="w-24 cursor-pointer hover:bg-gray-50 transition-colors"
+              onClick={() => onSort("score")}
+            >
+              Score {renderSortIcon("score")}
+            </TableHead>
+            <TableHead 
+              className="w-24 cursor-pointer hover:bg-gray-50 transition-colors"
+              onClick={() => onSort("trust")}
+            >
+              Trust {renderSortIcon("trust")}
+            </TableHead>
             <TableHead className="w-20">Action</TableHead>
           </TableRow>
         </TableHeader>

@@ -6,6 +6,7 @@ import { facilities, identifyMedicalDeserts } from "@/lib/agentic";
 export default async function DashboardPage() {
   const session = await auth();
   const dialysisDeserts = identifyMedicalDeserts("dialysis").slice(0, 3);
+  const oncologyDeserts = identifyMedicalDeserts("oncology").slice(0, 3);
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-5xl px-4 py-6">
@@ -33,33 +34,57 @@ export default async function DashboardPage() {
       </section>
 
       <section className="mt-6 grid gap-4 lg:grid-cols-2">
-        <div className="border border-gray-200 bg-white p-4">
+        <div className="border border-gray-200 bg-white p-6">
           <h2 className="text-base font-semibold text-gray-800">Serving A Nation: India capability search</h2>
-          <p className="mt-1 text-sm text-gray-600">
-            Search by patient need, district, state, or PIN and instantly review ranked facilities with trust explanations.
+          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+            Search by patient need (e.g. "Appendectomy in Rural Bihar"), district, or state. Review verified facilities ranked by 
+            <span className="font-semibold text-teal-700"> Trust Score </span> 
+            and 
+            <span className="font-semibold text-teal-700"> Statistical Confidence</span>.
           </p>
           <Link
             href="/search"
-            className="mt-4 inline-flex h-9 items-center border border-teal-600 bg-teal-600 px-4 text-sm font-medium text-white hover:bg-teal-700"
+            className="mt-6 inline-flex h-10 items-center border border-teal-600 bg-teal-600 px-6 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
           >
             Open Search Workspace
           </Link>
         </div>
 
-        <div className="border border-red-100 bg-red-50 p-4">
-          <h2 className="text-base font-semibold text-red-800">Agent Alert: Identified Medical Deserts</h2>
-          <p className="mt-1 text-sm text-red-700">Regions with the lowest verified Dialysis coverage:</p>
-          <ul className="mt-3 space-y-2">
-            {dialysisDeserts.map(d => (
-              <li key={d.state} className="flex items-center justify-between text-xs text-red-900 font-medium">
-                <span>{d.state}</span>
-                <span>{(d.coverage * 100).toFixed(1)}% Coverage</span>
-              </li>
-            ))}
-          </ul>
+        <div className="border border-red-100 bg-red-50 p-6">
+          <h2 className="text-base font-semibold text-red-800 flex items-center">
+            <span className="mr-2">🚨</span> Agent Alert: Identified Medical Deserts
+          </h2>
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-red-600">Critical: Dialysis Gap</p>
+              <ul className="mt-2 space-y-1">
+                {dialysisDeserts.map(d => (
+                  <li key={d.state} className="flex items-center justify-between text-xs text-red-900">
+                    <span>{d.state}</span>
+                    <span className="font-mono">{(d.coverage * 100).toFixed(0)}%</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-red-600">Critical: Oncology Gap</p>
+              <ul className="mt-2 space-y-1">
+                {oncologyDeserts.map(d => (
+                  <li key={d.state} className="flex items-center justify-between text-xs text-red-900">
+                    <span>{d.state}</span>
+                    <span className="font-mono">{(d.coverage * 100).toFixed(0)}%</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <p className="mt-4 text-[10px] italic text-red-700 border-t border-red-200 pt-2">
+            *Desert identified if verified coverage is &lt;10% across registered facilities.
+          </p>
         </div>
       </section>
     </main>
   );
 }
+
 
