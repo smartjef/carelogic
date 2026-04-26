@@ -77,10 +77,12 @@ export default function SearchPage() {
       { label: "Urgency", value: data.interpretedIntent?.urgency || "normal" },
       {
         label: "Location hint",
-        value:
-          data.interpretedIntent?.locationHint?.district && data.interpretedIntent?.locationHint?.state
-            ? `${data.interpretedIntent.locationHint.district}, ${data.interpretedIntent.locationHint.state}`
-            : "none",
+        value: (() => {
+          const lh = data.interpretedIntent?.locationHint;
+          if (!lh) return "none";
+          const parts = [lh.district, lh.state, lh.pincode].filter(Boolean);
+          return parts.length > 0 ? parts.join(", ") : "none";
+        })(),
       },
       { label: "Simulated corpus", value: `${data.indexStats?.simulatedCorpus || 10000}` },
     ],
