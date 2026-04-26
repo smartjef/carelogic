@@ -80,7 +80,7 @@ export default function SearchPage() {
         value: (() => {
           const lh = data.interpretedIntent?.locationHint;
           if (!lh) return "none";
-          const parts = [lh.district, lh.state, lh.pincode].filter(Boolean);
+          const parts = [...new Set([lh.district, lh.state, lh.pincode].filter(Boolean))];
           return parts.length > 0 ? parts.join(", ") : "none";
         })(),
       },
