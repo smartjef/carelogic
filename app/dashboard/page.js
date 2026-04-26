@@ -9,7 +9,7 @@ export default async function DashboardPage() {
   const oncologyDeserts = identifyMedicalDeserts("oncology").slice(0, 3);
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-5xl px-4 py-6">
+    <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-6">
       <header className="flex items-center justify-between border-b border-gray-200 pb-4">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">Healthcare Intelligence Dashboard</h1>

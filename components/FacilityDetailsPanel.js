@@ -18,13 +18,13 @@ export default function FacilityDetailsPanel({ facility }) {
   })();
 
   return (
-    <section className="space-y-4">
-      <div className="grid gap-4 lg:grid-cols-[380px_1fr]">
-        <div className="h-[400px] lg:h-auto overflow-hidden">
+    <section className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[450px_1fr]">
+        <div className="h-[500px] lg:h-auto overflow-hidden">
           <FacilityMap facilities={[facility]} simple={true} />
         </div>
         
-        <div className="border border-gray-200 bg-white p-6">
+        <div className="border border-gray-200 bg-white p-8">
           <div className="flex items-start justify-between">
             <div className="max-w-[70%]">
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">{facility.name}</h2>
